@@ -11,10 +11,23 @@ export const getHeaders = async () => {
     const url = 'https://scrapeninja.p.rapidapi.com/scrape-js';
 
     SJ_HEADERS['X-RapidAPI-Key'] = process.env.RAPIDAPI_KEY;
+
+
+    let scrapeNinjaJsParams = {
+        "url": "https://www.virginatlantic.com/flight-search/book-a-flight",
+        "waitForSelector": ".advanced-search-heading",
+        "geo": "de",
+        "retryNum": 2, 
+        
+        // this is just random ajax request the html page sends with cookies we need to later step2 request.
+        "catchAjaxHeadersUrlMask": "air-shopping/advancesearch.data.json", 
+        "blockImages": 1
+    };
+
     const options = {
         method: 'POST',
         headers: SJ_HEADERS,
-        body: '{"url":"https://www.virginatlantic.com/flight-search/book-a-flight","waitForSelector": ".advanced-search-heading","geo":"de","retryNum":2, "catchAjaxHeadersUrlMask":"air-shopping/advancesearch.data.json", "blockImages":1}'
+        body: JSON.stringify(scrapeNinjaJsParams)
     };
 
     // "catchAjaxHeadersUrlMask":"air-shopping/advancesearch.data.json",
@@ -73,7 +86,7 @@ export const scrape = async (headers) => {
         "url": "https://www.virginatlantic.com/shop/ow/flexdatesearch",
         "method": "POST",
         headers: dedupedHeaders,
-        "geo":"de",
+        "geo": "eu",
         "data": JSON.stringify(searchParams)
     };
 
